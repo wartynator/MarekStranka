@@ -1,43 +1,189 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
-  ArrowRight, BarChart3, Building2, Check, ChevronRight, FileCheck2,
-  FileText, Gauge, Leaf, Mail, MapPin, Menu, Phone, Quote,
+  ArrowLeft, ArrowRight, BarChart3, Building2, Check, ChevronRight, FileCheck2,
+  Gauge, Leaf, Mail, MapPin, Menu, Phone, Quote,
   ShieldCheck, X, Zap,
 } from 'lucide-react'
 import './App.css'
+
+const company = {
+  name: 'E&E Concept',
+  roleSk: 'Energetické poradenstvo pre budovy',
+  roleEn: 'Building Energy Consulting',
+  email: 'your.email@example.com',
+  phone: '+421 000 000 000',
+}
 
 const servicesEn = [
   { icon: FileCheck2, title: 'Energy Performance Certificates', text: 'Clear, accurate certification prepared in line with current requirements for residential and non-residential properties.' },
   { icon: BarChart3, title: 'Building Energy Assessment', text: 'A detailed review of energy demand, building systems, fabric performance, and opportunities for measurable improvement.' },
   { icon: Gauge, title: 'Energy Efficiency Consulting', text: 'Independent technical guidance for property owners, architects, developers, and organizations at every project stage.' },
-  { icon: Leaf, title: 'Consumption Reduction', text: 'Practical recommendations prioritized by impact, investment level, and realistic long-term energy savings.' },
+  { icon: Leaf, title: 'Energy-Saving Measure Design', text: 'Practical retrofit proposals focused on measurable primary-energy savings and realistic long-term operation.' },
   { icon: Building2, title: 'All Building Types', text: 'Support for houses, apartment buildings, commercial premises, and public buildings, both new and existing.' },
-  { icon: FileText, title: 'Technical Documentation', text: 'Well-structured calculations, documentation, and technical reports that are easy to review and ready to use.' },
 ]
 
 const servicesSk = [
   { icon: FileCheck2, title: 'Energetické certifikáty budov', text: 'Prehľadná a presná certifikácia vypracovaná podľa aktuálnych požiadaviek pre bytové aj nebytové budovy.' },
   { icon: BarChart3, title: 'Energetické hodnotenie budov', text: 'Podrobné posúdenie potreby energie, technických systémov, obalových konštrukcií a možností merateľného zlepšenia.' },
   { icon: Gauge, title: 'Poradenstvo v energetickej efektívnosti', text: 'Nezávislé technické poradenstvo pre vlastníkov, architektov, developerov a organizácie v každej fáze projektu.' },
-  { icon: Leaf, title: 'Znižovanie spotreby energie', text: 'Praktické odporúčania zoradené podľa prínosu, potrebnej investície a reálnych dlhodobých úspor.' },
+  { icon: Leaf, title: 'Návrh úsporných opatrení', text: 'Praktické návrhy obnovy so zameraním na merateľné úspory primárnej energie a dlhodobo efektívnu prevádzku.' },
   { icon: Building2, title: 'Všetky typy budov', text: 'Podpora pre rodinné a bytové domy, komerčné priestory aj verejné budovy, nové aj existujúce.' },
-  { icon: FileText, title: 'Technická dokumentácia', text: 'Prehľadné výpočty, dokumentácia a technické správy pripravené na kontrolu aj praktické použitie.' },
 ]
 
 const projectsEn = [
-  { number: '01', type: 'Residential', title: 'Low-energy family homes', text: 'Energy assessment and certification for new-build and existing single-family homes.', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85' },
-  { number: '02', type: 'Multi-residential', title: 'Apartment buildings', text: 'Whole-building analysis focused on envelope performance and shared technical systems.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85' },
-  { number: '03', type: 'Commercial', title: 'Efficient workplaces', text: 'Assessment and optimization strategies for offices, retail, and mixed-use buildings.', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85' },
-  { number: '04', type: 'Renovation', title: 'Energy retrofit projects', text: 'Option studies that compare renovation measures and identify the most effective path forward.', image: 'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=1200&q=85' },
-  { number: '05', type: 'Certification', title: 'Compliance documentation', text: 'Reliable energy certificates and technical reports for handover, sale, rental, or approval.', image: 'https://images.unsplash.com/photo-1461696114087-397271a7aedc?auto=format&fit=crop&w=1200&q=85' },
+  {
+    number: '01',
+    type: 'Family House',
+    title: 'Secovce - Sabados',
+    measures: [
+      'External wall insulation',
+      'Ceiling insulation towards attic',
+      'Replacement of windows and doors',
+      'New heat source',
+      'New distribution for heating and hot water',
+    ],
+    saving: 'Primary energy savings: 73%',
+    oldImage: '/references/rd_secovce_sabados_old.jpg',
+    newImage: '/references/rd_secovce_sabados.jpg',
+  },
+  {
+    number: '02',
+    type: 'Family House',
+    title: 'Secovce - Janotik',
+    measures: [
+      'External wall insulation',
+      'Roof structure insulation',
+      'Ceiling insulation towards attic',
+      'Replacement of windows and doors',
+    ],
+    saving: 'Primary energy savings: 65%',
+    oldImage: '/references/rd_secovce_janotik_old.jpg',
+    newImage: '/references/rd_secovce_janotik.jpg',
+  },
+  {
+    number: '03',
+    type: 'Family House',
+    title: 'Secovce - Janotikova',
+    measures: [
+      'External wall insulation',
+      'Ceiling insulation towards attic',
+      'Replacement of windows and doors',
+      'Heat source replacement',
+    ],
+    saving: 'Primary energy savings: 66%',
+    oldImage: '/references/rd_secovce_janotikova_old.jpg',
+    newImage: '/references/rd_secovce_janotikova.jpg',
+  },
+  {
+    number: '04',
+    type: 'Family House',
+    title: 'Slivnik - Jurko',
+    measures: [
+      'External wall insulation',
+      'Ceiling insulation towards attic',
+      'Roof structure insulation',
+      'Ground-floor slab insulation',
+      'Replacement of windows and doors',
+      'New heating and hot water system',
+    ],
+    saving: 'Primary energy savings: 75%',
+    oldImage: '/references/rd_slivnik_jurko_old.jpg',
+    newImage: '/references/rd_slivnik_jurko.jpg',
+  },
+  {
+    number: '05',
+    type: 'Family House',
+    title: 'Nova Bana - Paucek',
+    measures: [
+      'External wall insulation',
+      'Ceiling insulation towards attic',
+      'Ground-floor slab insulation',
+      'Replacement of windows and doors',
+      'New heating and hot water system',
+      'Photovoltaic system',
+    ],
+    saving: 'Primary energy savings: 95%',
+    oldImage: '/references/rd_nova_bana_paucek_old.jpg',
+    newImage: '/references/rd_nova_bana_paucek.jpg',
+  },
 ]
 
 const projectsSk = [
-  { number: '01', type: 'Rodinné domy', title: 'Nízkoenergetické rodinné domy', text: 'Energetické hodnotenie a certifikácia nových aj existujúcich rodinných domov.', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85' },
-  { number: '02', type: 'Bytové budovy', title: 'Bytové domy', text: 'Komplexná analýza budovy so zameraním na obalové konštrukcie a spoločné technické systémy.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85' },
-  { number: '03', type: 'Komerčné budovy', title: 'Efektívne pracoviská', text: 'Hodnotenie a optimalizačné stratégie pre kancelárie, prevádzky a polyfunkčné budovy.', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85' },
-  { number: '04', type: 'Obnova', title: 'Projekty energetickej obnovy', text: 'Porovnanie variantov obnovy a určenie najefektívnejšieho postupu pre konkrétnu budovu.', image: 'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=1200&q=85' },
-  { number: '05', type: 'Certifikácia', title: 'Dokumentácia súladu', text: 'Spoľahlivé energetické certifikáty a technické správy pre kolaudáciu, predaj, prenájom či schvaľovanie.', image: 'https://images.unsplash.com/photo-1461696114087-397271a7aedc?auto=format&fit=crop&w=1200&q=85' },
+  {
+    number: '01',
+    type: 'Rodinný dom',
+    title: 'Secovce - Sabados',
+    measures: [
+      'Zateplenie obvodového plášťa',
+      'Zateplenie stropu do povaly',
+      'Výmena výplní otvorov (okná, dvere)',
+      'Nový zdroj tepla',
+      'Nové rozvody pre systém vykurovania a prípravy teplej vody',
+    ],
+    saving: 'Úspora primárnej energie: 73%',
+    oldImage: '/references/rd_secovce_sabados_old.jpg',
+    newImage: '/references/rd_secovce_sabados.jpg',
+  },
+  {
+    number: '02',
+    type: 'Rodinný dom',
+    title: 'Secovce - Janotik',
+    measures: [
+      'Zateplenie obvodového plášťa',
+      'Zateplenie strešnej konštrukcie',
+      'Zateplenie stropu do povaly',
+      'Výmena výplní otvorov (okná, dvere)',
+    ],
+    saving: 'Úspora primárnej energie: 65%',
+    oldImage: '/references/rd_secovce_janotik_old.jpg',
+    newImage: '/references/rd_secovce_janotik.jpg',
+  },
+  {
+    number: '03',
+    type: 'Rodinný dom',
+    title: 'Secovce - Janotikova',
+    measures: [
+      'Zateplenie obvodového plášťa',
+      'Zateplenie stropu do povaly',
+      'Výmena výplní otvorov (okná, dvere)',
+      'Výmena zdroja tepla',
+    ],
+    saving: 'Úspora primárnej energie: 66%',
+    oldImage: '/references/rd_secovce_janotikova_old.jpg',
+    newImage: '/references/rd_secovce_janotikova.jpg',
+  },
+  {
+    number: '04',
+    type: 'Rodinný dom',
+    title: 'Slivnik - Jurko',
+    measures: [
+      'Zateplenie obvodového plášťa',
+      'Zateplenie stropu do povaly',
+      'Zateplenie strešnej konštrukcie',
+      'Zateplenie podlahy na teréne',
+      'Výmena výplní otvorov (okná, dvere)',
+      'Nový systém vykurovania a prípravy teplej vody',
+    ],
+    saving: 'Úspora primárnej energie: 75%',
+    oldImage: '/references/rd_slivnik_jurko_old.jpg',
+    newImage: '/references/rd_slivnik_jurko.jpg',
+  },
+  {
+    number: '05',
+    type: 'Rodinný dom',
+    title: 'Nova Bana - Paucek',
+    measures: [
+      'Zateplenie obvodového plášťa',
+      'Zateplenie stropu do povaly',
+      'Zateplenie podlahy na teréne',
+      'Výmena výplní otvorov (okná, dvere)',
+      'Nový systém vykurovania a prípravy teplej vody',
+      'Fotovoltaický systém',
+    ],
+    saving: 'Úspora primárnej energie: 95%',
+    oldImage: '/references/rd_nova_bana_paucek_old.jpg',
+    newImage: '/references/rd_nova_bana_paucek.jpg',
+  },
 ]
 
 const benefitsEn = [
@@ -58,23 +204,26 @@ const benefitsSk = [
 
 const copy = {
   sk: {
-    role: 'Špecialista na energetiku budov', nav: ['Domov', 'O mne', 'Služby', 'Referencie', 'Kontakt'], navIds: ['home', 'about', 'services', 'portfolio', 'contact'],
+    role: company.roleSk, nav: ['Domov', 'O nás', 'Služby', 'Referencie', 'Kontakt'], navIds: ['home', 'about', 'services', 'portfolio', 'contact'],
     consultation: 'Požiadať o konzultáciu', menu: 'Prepnúť navigáciu', mainNav: 'Hlavná navigácia', imageAlt: 'Fasáda modernej energeticky efektívnej budovy',
-    heroEyebrow: 'Nezávislé odborné poradenstvo', heroTitle: <>Energetická hospodárnosť<br />budov</>, heroCopy: 'Pomáham vlastníkom, developerom, architektom a firmám porozumieť energetickej hospodárnosti budov, zvýšiť ich efektívnosť a prijímať správne rozhodnutia.', viewServices: 'Zobraziť služby', highlights: 'Hlavné výhody služieb', stats: [['Nezávislosť', 'Odborné poradenstvo'], ['Presnosť', 'Energetická dokumentácia'], ['Praktickosť', 'Efektívne riešenia']], explore: 'Objaviť', scroll: 'Prejsť na sekciu O mne',
-    aboutLabel: '01 / O mne', aboutEyebrow: 'Spoľahlivé odborné znalosti, jasné výstupy', aboutTitle: 'Lepšia energetická hospodárnosť začína dôkladným pochopením budovy.', aboutLead: <>Som <strong>Marek Ujhazi</strong>, nezávislý konzultant so zameraním na energetickú hospodárnosť budov.</>, aboutP1: 'Spájam technické znalosti s praktickým a priamym prístupom. Klientom poskytujem spoľahlivý obraz o fungovaní budovy, spotrebe energie a opatreniach s najväčším prínosom.', aboutP2: 'Od prvotného posúdenia až po finálnu dokumentáciu sa zameriavam na efektívne riešenia v súlade s predpismi a skutočnými podmienkami každej budovy.', values: ['Technická presnosť', 'Spoľahlivé dodanie', 'Jasné odporúčania'],
-    servicesLabel: '02 / Služby', servicesEyebrow: 'Čomu sa venujem', servicesTitle: 'Poradenstvo v energetickej efektívnosti', servicesIntro: 'Cielené technické služby pre lepšie rozhodnutia pri projektovaní, výstavbe, obnove, predaji aj prevádzke budov.',
-    portfolioLabel: '03 / Vybrané projekty', portfolioEyebrow: 'Typy referenčných projektov', portfolioTitle: 'Energetické hodnotenie budov v praxi', portfolioIntro: 'Ukážkové kategórie projektov. Nahraďte ich vlastnými realizáciami, fotografiami a dosiahnutými výsledkami.', example: 'ukážka',
-    benefitsLabel: '04 / Prečo spolupracovať so mnou', benefitsEyebrow: 'Istota v každej fáze', benefitsTitle: 'Odborné rady, ktoré môžete využiť.', benefitsIntro: 'Kvalitné energetické poradenstvo nie je iba o výpočtoch. Technické zistenia premieňam na jasné a užitočné ďalšie kroky.',
-    contactEyebrow: 'Začnime rozhovor', contactTitle: 'Zlepšime energetickú hospodárnosť vašej budovy.', contactIntro: 'Ozvite sa mi a prediskutujeme váš projekt, potrebnú dokumentáciu alebo najlepší spôsob zníženia energetickej náročnosti budovy.', email: 'E-mail', phone: 'Telefón', area: 'Oblasť pôsobenia', region: '[Vaše mesto / región]',
-    formTitle: 'Povedzte mi o svojom projekte', formIntro: 'Odpoviem vám čo najskôr.', name: 'Meno', namePlaceholder: 'Vaše meno', message: 'Správa', messagePlaceholder: 'Stručne opíšte budovu a spôsob, akým vám môžem pomôcť...', submit: 'Odoslať dopyt', sent: 'Ďakujem. Váš dopyt bol zaznamenaný.', footer: 'Energetické certifikáty. Hodnotenia. Praktická efektívnosť.', rights: 'Všetky práva vyhradené.',
-    metaTitle: 'Marek Ujhazi | Energetická hospodárnosť budov', metaDescription: 'Nezávislý konzultant pre energetické certifikáty, hodnotenie budov, energetickú efektívnosť a technickú dokumentáciu.',
+    heroEyebrow: 'Nezávislé odborné poradenstvo', heroTitle: <>Energetická hospodárnosť<br />budov</>, heroCopy: 'Pomáhame vlastníkom, developerom, architektom a firmám porozumieť energetickej hospodárnosti budov, zvýšiť ich efektívnosť a prijímať správne rozhodnutia.', viewServices: 'Zobraziť služby', highlights: 'Hlavné výhody služieb', stats: [['Nezávislosť', 'Odborné poradenstvo'], ['Presnosť', 'Energetické hodnotenie'], ['Praktickosť', 'Efektívne riešenia']], explore: 'Objaviť', scroll: 'Prejsť na sekciu O nás',
+    aboutLabel: '01 / O nás', aboutEyebrow: 'Spoľahlivé odborné znalosti, jasné výstupy', aboutTitle: 'Lepšia energetická hospodárnosť začína dôkladným pochopením budovy.', aboutLead: <>Spoločnosť <strong>{company.name}</strong> poskytuje nezávislé poradenstvo so zameraním na energetickú hospodárnosť budov.</>, aboutP1: 'Spájame technické znalosti s praktickým a priamym prístupom. Klientom poskytujeme spoľahlivý obraz o fungovaní budovy, spotrebe energie a opatreniach s najväčším prínosom.', aboutP2: 'Od prvotného posúdenia až po finálne návrhy obnovy sa zameriavame na efektívne riešenia v súlade s predpismi a skutočnými podmienkami každej budovy.', values: ['Technická presnosť', 'Spoľahlivé dodanie', 'Jasné odporúčania'],
+    servicesLabel: '02 / Služby', servicesEyebrow: 'Čomu sa venujeme', servicesTitle: 'Poradenstvo v energetickej efektívnosti', servicesIntro: 'Cielené technické služby pre lepšie rozhodnutia pri projektovaní, výstavbe, obnove, predaji aj prevádzke budov.',
+    portfolioLabel: '03 / Referencie', portfolioEyebrow: 'Realizované návrhy úprav', portfolioTitle: 'Energetické hodnotenie budov v praxi', portfolioIntro: 'Vybrané referencie s navrhnutými opatreniami a dosiahnutou úsporou primárnej energie.', proposedChanges: 'Návrh úprav', previous: 'Predchádzajúca referencia', next: 'Nasledujúca referencia', before: 'Pred', after: 'Po',
+    benefitsLabel: '04 / Prečo spolupracovať s nami', benefitsEyebrow: 'Istota v každej fáze', benefitsTitle: 'Odborné rady, ktoré môžete využiť.', benefitsIntro: 'Kvalitné energetické poradenstvo nie je iba o výpočtoch. Technické zistenia premieňame na jasné a užitočné ďalšie kroky.',
+    contactEyebrow: 'Začnime rozhovor', contactTitle: 'Zlepšime energetickú hospodárnosť vašej budovy.', contactIntro: 'Ozvite sa nám a prediskutujeme váš projekt, potrebnú dokumentáciu alebo najlepší spôsob zníženia energetickej náročnosti budovy.', email: 'E-mail', phone: 'Telefón', area: 'Oblasť pôsobenia', region: 'Slovensko',
+    formTitle: 'Povedzte nám o svojom projekte', formIntro: 'Odpovieme vám čo najskôr.', name: 'Meno', namePlaceholder: 'Vaše meno', message: 'Správa', messagePlaceholder: 'Stručne opíšte budovu a spôsob, akým vám môžeme pomôcť...', submit: 'Odoslať dopyt', sent: 'Ďakujeme. Váš dopyt bol zaznamenaný.', footer: 'Energetické certifikáty. Hodnotenia. Praktická efektívnosť.', rights: 'Všetky práva vyhradené.',
+    metaTitle: 'E&E Concept | Energetická hospodárnosť budov', metaDescription: 'Energetické certifikáty, hodnotenie budov a návrhy úsporných opatrení pre bytové aj nebytové budovy.',
   },
   en: {
-    role: 'Building Energy Consultant', nav: ['Home', 'About', 'Services', 'Portfolio', 'Contact'], navIds: ['home', 'about', 'services', 'portfolio', 'contact'], consultation: 'Request a consultation', menu: 'Toggle navigation', mainNav: 'Main navigation', imageAlt: 'Contemporary energy-efficient building facade',
-    heroEyebrow: 'Independent building energy expertise', heroTitle: <>Energy Performance<br />of Buildings</>, heroCopy: 'I help property owners, developers, architects, and businesses understand performance, improve efficiency, and make confident energy decisions.', viewServices: 'View services', highlights: 'Service highlights', stats: [['Independent', 'Technical advice'], ['Accurate', 'Energy documentation'], ['Practical', 'Efficiency solutions']], explore: 'Explore', scroll: 'Scroll to about section',
-    aboutLabel: '01 / About', aboutEyebrow: 'Reliable expertise, clearly delivered', aboutTitle: 'Better-performing buildings begin with a clear understanding.', aboutLead: <>I am <strong>Marek Ujhazi</strong>, an independent consultant specializing in the energy performance of buildings.</>, aboutP1: 'I combine technical knowledge with a practical, straightforward approach. My work gives clients a reliable view of how their building performs, where energy is being used, and which improvements will make the greatest difference.', aboutP2: 'From initial assessment to final documentation, I focus on solutions that are efficient, regulation-compliant, and appropriate for the real conditions of each building.', values: ['Technical precision', 'Dependable delivery', 'Clear recommendations'],
-    servicesLabel: '02 / Services', servicesEyebrow: 'What I do', servicesTitle: 'Energy Efficiency Consulting', servicesIntro: 'Focused technical services to support better decisions through design, construction, renovation, sale, and operation.', portfolioLabel: '03 / Selected work', portfolioEyebrow: 'Reference project types', portfolioTitle: 'Building Energy Assessment in Practice', portfolioIntro: 'Representative project categories. Replace these examples with your completed work, photography, and results.', example: 'example',
-    benefitsLabel: '04 / Why work with me', benefitsEyebrow: 'Confidence at every stage', benefitsTitle: 'Professional advice you can act on.', benefitsIntro: 'Good energy consulting is not only about calculations. It is about turning technical evidence into a clear and useful next step.', contactEyebrow: 'Start a conversation', contactTitle: "Let's improve your building's performance.", contactIntro: "Get in touch to discuss your project, required documentation, or the best way to reduce your building's energy demand.", email: 'Email', phone: 'Phone', area: 'Service area', region: '[Your City / Region]', formTitle: 'Tell me about your project', formIntro: 'I will respond as soon as possible.', name: 'Name', namePlaceholder: 'Your name', message: 'Message', messagePlaceholder: 'Briefly describe the building and how I can help...', submit: 'Send enquiry', sent: 'Thank you. Your enquiry has been recorded.', footer: 'Energy certificates. Assessments. Practical efficiency.', rights: 'All rights reserved.', metaTitle: 'Marek Ujhazi | Energy Performance of Buildings', metaDescription: 'Independent building energy consultant providing energy certificates, building assessments, efficiency consulting, and technical documentation.',
+    role: company.roleEn, nav: ['Home', 'About Us', 'Services', 'References', 'Contact'], navIds: ['home', 'about', 'services', 'portfolio', 'contact'], consultation: 'Request a consultation', menu: 'Toggle navigation', mainNav: 'Main navigation', imageAlt: 'Contemporary energy-efficient building facade',
+    heroEyebrow: 'Independent building energy expertise', heroTitle: <>Energy Performance<br />of Buildings</>, heroCopy: 'We help property owners, developers, architects, and businesses understand performance, improve efficiency, and make confident energy decisions.', viewServices: 'View services', highlights: 'Service highlights', stats: [['Independent', 'Technical advice'], ['Accurate', 'Energy documentation'], ['Practical', 'Efficiency solutions']], explore: 'Explore', scroll: 'Scroll to about section',
+    aboutLabel: '01 / About Us', aboutEyebrow: 'Reliable expertise, clearly delivered', aboutTitle: 'Better-performing buildings begin with a clear understanding.', aboutLead: <>Company <strong>{company.name}</strong> provides independent consulting focused on building energy performance.</>, aboutP1: 'We combine technical knowledge with a practical, straightforward approach. Our work gives clients a reliable view of how their building performs, where energy is being used, and which improvements make the biggest difference.', aboutP2: 'From initial assessment to retrofit proposals, we focus on solutions that are efficient, regulation-compliant, and appropriate for real building conditions.', values: ['Technical precision', 'Dependable delivery', 'Clear recommendations'],
+    servicesLabel: '02 / Services', servicesEyebrow: 'What we do', servicesTitle: 'Energy Efficiency Consulting', servicesIntro: 'Focused technical services to support better decisions through design, construction, renovation, sale, and operation.', portfolioLabel: '03 / Selected work', portfolioEyebrow: 'Reference project types', portfolioTitle: 'Building Energy Assessment in Practice', portfolioIntro: 'Representative project categories. Replace these examples with your completed work, photography, and results.', example: 'example',
+    benefitsLabel: '04 / Why work with us', benefitsEyebrow: 'Confidence at every stage', benefitsTitle: 'Professional advice you can act on.', benefitsIntro: 'Good energy consulting is not only about calculations. It is about turning technical evidence into a clear and useful next step.',
+    contactEyebrow: 'Start a conversation', contactTitle: "Let's improve your building's performance.", contactIntro: "Get in touch to discuss your project, required documentation, or the best way to reduce your building's energy demand.", email: 'Email', phone: 'Phone', area: 'Service area', region: 'Slovakia',
+    formTitle: 'Tell us about your project', formIntro: 'We will respond as soon as possible.', name: 'Name', namePlaceholder: 'Your name', message: 'Message', messagePlaceholder: 'Briefly describe the building and how we can help...', submit: 'Send enquiry', sent: 'Thank you. Your enquiry has been recorded.', footer: 'Energy certificates. Assessments. Practical efficiency.', rights: 'All rights reserved.', metaTitle: 'E&E Concept | Energy Performance of Buildings', metaDescription: 'Energy certificates, building assessments, and practical energy-saving retrofit proposals.',
+    proposedChanges: 'Proposed retrofit measures', previous: 'Previous reference', next: 'Next reference', before: 'Before', after: 'After',
   },
 }
 
@@ -82,11 +231,24 @@ function App() {
   const [language, setLanguage] = useState('sk')
   const [menuOpen, setMenuOpen] = useState(false)
   const [formSent, setFormSent] = useState(false)
+  const [currentProject, setCurrentProject] = useState(0)
   const closeMenu = () => setMenuOpen(false)
   const t = copy[language]
   const services = language === 'sk' ? servicesSk : servicesEn
   const projects = language === 'sk' ? projectsSk : projectsEn
   const benefits = language === 'sk' ? benefitsSk : benefitsEn
+
+  useEffect(() => {
+    setCurrentProject((prev) => (prev >= projects.length ? 0 : prev))
+  }, [language, projects.length])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentProject((prev) => (prev + 1) % projects.length)
+    }, 7000)
+
+    return () => clearInterval(intervalId)
+  }, [projects.length])
 
   const changeLanguage = (nextLanguage) => {
     setLanguage(nextLanguage)
@@ -102,12 +264,20 @@ function App() {
     event.currentTarget.reset()
   }
 
+  const previousProject = () => {
+    setCurrentProject((prev) => (prev - 1 + projects.length) % projects.length)
+  }
+
+  const nextProject = () => {
+    setCurrentProject((prev) => (prev + 1) % projects.length)
+  }
+
   return (
     <div className="site-shell">
       <header className="site-header">
-        <a className="brand" href="#home" onClick={closeMenu} aria-label="Marek Ujhazi domov">
-          <span className="brand-mark"><Building2 size={24} strokeWidth={1.8} /></span>
-          <span><strong>MAREK UJHAZI</strong><small>{t.role}</small></span>
+        <a className="brand" href="#home" onClick={closeMenu} aria-label="E&E Concept domov">
+          <span className="brand-mark"><img src="/logo.svg" alt="Logo firmy E&E Concept" /></span>
+          <span><strong>{company.name.toUpperCase()}</strong><small>{t.role}</small></span>
         </a>
         <nav className={menuOpen ? 'nav-links is-open' : 'nav-links'} aria-label={t.mainNav}>
           {t.nav.map((item, index) => <a key={t.navIds[index]} href={`#${t.navIds[index]}`} onClick={closeMenu}>{item}</a>)}
@@ -174,13 +344,43 @@ function App() {
               <div><p className="eyebrow light"><span /> {t.portfolioEyebrow}</p><h2>{t.portfolioTitle}</h2></div>
               <p>{t.portfolioIntro}</p>
             </div>
-            <div className="project-grid">
-              {projects.map((project) => (
-                <article className="project-card" key={project.number}>
-                  <img src={project.image} alt={`${project.title} – ${t.example}`} /><div className="project-shade" /><span className="project-number">{project.number}</span>
-                  <div className="project-copy"><span>{project.type}</span><h3>{project.title}</h3><p>{project.text}</p></div>
-                </article>
-              ))}
+            <div className="project-slideshow" aria-live="polite">
+              <article className="project-card" key={projects[currentProject].number}>
+                <div className="project-images">
+                  <figure>
+                    <img src={projects[currentProject].oldImage} alt={`${t.before} ${projects[currentProject].number}`} />
+                    <figcaption>{t.before}</figcaption>
+                  </figure>
+                  <figure>
+                    <img src={projects[currentProject].newImage} alt={`${t.after} ${projects[currentProject].number}`} />
+                    <figcaption>{t.after}</figcaption>
+                  </figure>
+                </div>
+                <div className="project-shade" />
+                <span className="project-number">{projects[currentProject].number}</span>
+                <div className="project-copy">
+                  <p className="project-measures-title">{t.proposedChanges}:</p>
+                  <ul>
+                    {projects[currentProject].measures.map((measure) => <li key={measure}>{measure}</li>)}
+                  </ul>
+                  <p className="project-saving">{projects[currentProject].saving}</p>
+                </div>
+              </article>
+              <div className="slideshow-controls">
+                <button type="button" className="slideshow-arrow" onClick={previousProject} aria-label={t.previous}><ArrowLeft size={18} /></button>
+                <div className="slideshow-dots" role="tablist" aria-label="Project slides">
+                  {projects.map((project, index) => (
+                    <button
+                      key={project.number}
+                      type="button"
+                      className={index === currentProject ? 'active' : ''}
+                      aria-selected={index === currentProject}
+                      onClick={() => setCurrentProject(index)}
+                    />
+                  ))}
+                </div>
+                <button type="button" className="slideshow-arrow" onClick={nextProject} aria-label={t.next}><ArrowRight size={18} /></button>
+              </div>
             </div>
           </div>
         </section>
@@ -205,8 +405,8 @@ function App() {
             <p className="eyebrow light"><span /> {t.contactEyebrow}</p><h2>{t.contactTitle}</h2>
             <p>{t.contactIntro}</p>
             <div className="contact-details">
-              <a href="mailto:your.email@example.com"><Mail size={20} /><span><small>{t.email}</small>your.email@example.com</span></a>
-              <a href="tel:+000000000000"><Phone size={20} /><span><small>{t.phone}</small>+00 000 000 000</span></a>
+              <a href={`mailto:${company.email}`}><Mail size={20} /><span><small>{t.email}</small>{company.email}</span></a>
+              <a href={`tel:${company.phone.replace(/\s/g, '')}`}><Phone size={20} /><span><small>{t.phone}</small>{company.phone}</span></a>
               <div><MapPin size={20} /><span><small>{t.area}</small>{t.region}</span></div>
             </div>
           </div>
@@ -224,8 +424,8 @@ function App() {
       </main>
 
       <footer>
-        <a className="brand footer-brand" href="#home"><span className="brand-mark"><Building2 size={24} strokeWidth={1.8} /></span><span><strong>MAREK UJHAZI</strong><small>{t.role}</small></span></a>
-        <p>{t.footer}</p><span>© 2026 Marek Ujhazi. {t.rights}</span>
+        <a className="brand footer-brand" href="#home"><span className="brand-mark"><img src="/logo.svg" alt="Logo firmy E&E Concept" /></span><span><strong>{company.name.toUpperCase()}</strong><small>{t.role}</small></span></a>
+        <p>{t.footer}</p><span>© 2026 {company.name}. {t.rights}</span>
       </footer>
     </div>
   )
