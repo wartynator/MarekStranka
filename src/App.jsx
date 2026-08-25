@@ -11,7 +11,7 @@ const company = {
   roleSk: 'Energetické poradenstvo pre budovy',
   roleEn: 'Building Energy Consulting',
   email: 'info@eeconcept.sk',
-  phone: '+421 944 375 589',
+  phone: '+421 944 375 580',
 }
 
 const servicesEn = [
