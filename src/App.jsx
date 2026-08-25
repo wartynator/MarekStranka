@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
-  ArrowLeft, ArrowRight, BarChart3, Building2, ChevronRight, FileCheck2,
+  ArrowLeft, ArrowRight, BarChart3, Building2, Check, ChevronRight, FileCheck2,
   Gauge, Leaf, Mail, MapPin, Menu, Phone, Quote,
   ShieldCheck, X, Zap,
 } from 'lucide-react'
