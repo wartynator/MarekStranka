@@ -1,7 +1,6 @@
-import emailjs from '@emailjs/browser'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
-  ArrowLeft, ArrowRight, BarChart3, Building2, Check, ChevronRight, FileCheck2,
+  ArrowLeft, ArrowRight, BarChart3, Building2, ChevronRight, FileCheck2,
   Gauge, Leaf, Mail, MapPin, Menu, Phone, Quote,
   ShieldCheck, X, Zap,
 } from 'lucide-react'
@@ -11,7 +10,7 @@ const company = {
   name: 'E&E Concept',
   roleSk: 'Energetické poradenstvo pre budovy',
   roleEn: 'Building Energy Consulting',
-  email: 'marekujhazi9@gmail.com',
+  email: 'info@eeconcept.sk',
   phone: '+421 944 375 589',
 }
 
@@ -213,7 +212,7 @@ const copy = {
     portfolioLabel: '03 / Referencie', portfolioEyebrow: 'Realizované návrhy úprav', portfolioTitle: 'Energetické hodnotenie budov v praxi', portfolioIntro: 'Vybrané referencie s navrhnutými opatreniami a dosiahnutou úsporou primárnej energie.', proposedChanges: 'Návrh úprav', previous: 'Predchádzajúca referencia', next: 'Nasledujúca referencia', before: 'Pred', after: 'Po',
     benefitsLabel: '04 / Prečo spolupracovať s nami', benefitsEyebrow: 'Istota v každej fáze', benefitsTitle: 'Odborné rady, ktoré môžete využiť.', benefitsIntro: 'Kvalitné energetické poradenstvo nie je iba o výpočtoch. Technické zistenia premieňame na jasné a užitočné ďalšie kroky.',
     contactEyebrow: 'Začnime rozhovor', contactTitle: 'Potrebujete energetický certifikát alebo hodnotenie budovy?', contactIntro: 'Ozvite sa nám a prediskutujeme váš projekt. Pôsobíme v Košiciach a vďaka online spolupráci obsluhujeme klientov po celom Slovensku.', email: 'E-mail', phone: 'Telefón', area: 'Oblasť pôsobenia', region: 'Košice a celé Slovensko', beforeAlt: 'stav pred obnovou', afterAlt: 'stav po obnove',
-    formTitle: 'Povedzte nám o svojom projekte', formIntro: 'Odpovieme vám čo najskôr.', name: 'Meno', namePlaceholder: 'Vaše meno', message: 'Správa', messagePlaceholder: 'Stručne opíšte budovu a spôsob, akým vám môžeme pomôcť...', submit: 'Odoslať dopyt', sent: 'Ďakujeme. Váš dopyt bol zaznamenaný.', footer: 'Energetické certifikáty. Hodnotenia.', rights: 'Všetky práva vyhradené.',
+    formTitle: 'Povedzte nám o svojom projekte', formIntro: 'Napíšte nám a odpovieme vám čo najskôr.', writeEmail: 'Napísať e-mail', footer: 'Energetické certifikáty. Hodnotenia.', rights: 'Všetky práva vyhradené.',
     metaTitle: 'Energetická certifikácia budov Košice | E&E Concept', metaDescription: 'Energetický certifikát, hodnotenie a poradenstvo v energetickej hospodárnosti budov. Košice a celé Slovensko. Rodinné domy, byty, komerčné budovy.',
   },
   en: {
@@ -223,7 +222,7 @@ const copy = {
     servicesLabel: '02 / Services', servicesEyebrow: 'What we do', servicesTitle: 'Energy Efficiency Consulting', servicesIntro: 'Focused technical services for family homes, apartment buildings, commercial and public buildings — from design and construction through to sale and renovation.', faqLabel: '05 / FAQ', faqEyebrow: 'Common questions', faqTitle: 'What you need to know', faqIntro: 'Answers to the most common questions about building energy certification and assessment.', faqs: [{q:'What is a building energy performance certificate?',a:'An energy performance certificate (EPC) is a formal document that rates a building\'s energy efficiency and classifies it into an energy class (A0 to G). It is required when selling, renting, or completing a new building, and is based on a calculated assessment of the building\'s energy demand.'},{q:'When is an energy performance certificate required?',a:'An EPC is required when selling or renting a building or part of a building, upon completion of a new building, and in the case of major renovation. Requirements are set by Slovak Act No. 555/2005 Coll. on building energy performance, as amended. [REQUIRES LEGAL VERIFICATION OF CURRENT REQUIREMENTS]'},{q:'What is the difference between an EPC and an energy audit?',a:'An energy performance certificate assesses overall building energy efficiency and assigns an energy class. An energy audit is a more detailed analysis typically required for larger buildings or enterprises. E&E Concept focuses on energy performance certification, assessment, and consulting.'},{q:'What types of buildings do you work with?',a:'We work with family houses, apartment buildings, commercial premises, administrative buildings, and public buildings — both new constructions and existing buildings undergoing renovation, sale, or planning approval.'},{q:'What documentation will you need?',a:'The specific documents depend on the building type and service required. Typically this includes project documentation or a building survey, details of construction layers and materials, and technical specifications of installed systems (heating, ventilation, hot water). We will confirm the exact requirements after your initial enquiry.'},{q:'How does the process work?',a:'After your initial contact, we establish what type of assessment you need and what documents are available. We then provide a technical assessment, the output document, and a clear explanation of the findings. Most of the process can be handled online.'},{q:'How long is an energy performance certificate valid?',a:'An energy performance certificate is valid for 10 years, unless a major renovation significantly changes the building\'s energy performance in the meantime. [REQUIRES LEGAL VERIFICATION]'},{q:'Do you operate outside Košice?',a:'Our primary base is the Košice region, but we serve clients across Slovakia through online collaboration. Get in touch and we\'ll confirm how we can help.'}], portfolioLabel: '03 / Selected work', portfolioEyebrow: 'Reference project types', portfolioTitle: 'Building Energy Assessment in Practice', portfolioIntro: 'Representative project categories. Replace these examples with your completed work, photography, and results.', example: 'example',
     benefitsLabel: '04 / Why work with us', benefitsEyebrow: 'Confidence at every stage', benefitsTitle: 'Professional advice you can act on.', benefitsIntro: 'Good energy consulting is not only about calculations. It is about turning technical evidence into a clear and useful next step.',
     contactEyebrow: 'Start a conversation', contactTitle: 'Need an energy certificate or building assessment?', contactIntro: 'Get in touch to discuss your project. Based in Košice, we serve clients across Slovakia through online collaboration.', email: 'Email', phone: 'Phone', area: 'Service area', region: 'Košice & Slovakia', beforeAlt: 'before renovation', afterAlt: 'after renovation',
-    formTitle: 'Tell us about your project', formIntro: 'We will respond as soon as possible.', name: 'Name', namePlaceholder: 'Your name', message: 'Message', messagePlaceholder: 'Briefly describe the building and how we can help...', submit: 'Send enquiry', sent: 'Thank you. Your enquiry has been recorded.', footer: 'Energy certificates. Assessments. Practical efficiency.', rights: 'All rights reserved.', metaTitle: 'Building Energy Certificates & Assessment | E&E Concept Slovakia', metaDescription: 'Energy performance certificates, building assessments and efficiency consulting in Košice and across Slovakia. Family homes, apartments, commercial buildings.',
+    formTitle: 'Tell us about your project', formIntro: 'Email us and we will respond as soon as possible.', writeEmail: 'Write an email', footer: 'Energy certificates. Assessments. Practical efficiency.', rights: 'All rights reserved.', metaTitle: 'Building Energy Certificates & Assessment | E&E Concept Slovakia', metaDescription: 'Energy performance certificates, building assessments and efficiency consulting in Košice and across Slovakia. Family homes, apartments, commercial buildings.',
     proposedChanges: 'Proposed retrofit measures', previous: 'Previous reference', next: 'Next reference', before: 'Before', after: 'After',
   },
 }
@@ -231,11 +230,7 @@ const copy = {
 function App() {
   const [language, setLanguage] = useState('sk')
   const [menuOpen, setMenuOpen] = useState(false)
-  const [formSent, setFormSent] = useState(false)
-  const [formError, setFormError] = useState(false)
-  const [formSending, setFormSending] = useState(false)
   const [currentProject, setCurrentProject] = useState(0)
-  const formRef = useRef(null)
   const closeMenu = () => setMenuOpen(false)
   const t = copy[language]
   const services = language === 'sk' ? servicesSk : servicesEn
@@ -256,30 +251,9 @@ function App() {
 
   const changeLanguage = (nextLanguage) => {
     setLanguage(nextLanguage)
-    setFormSent(false)
-    setFormError(false)
     document.documentElement.lang = nextLanguage
     document.title = copy[nextLanguage].metaTitle
     document.querySelector('meta[name="description"]')?.setAttribute('content', copy[nextLanguage].metaDescription)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    setFormSending(true)
-    setFormError(false)
-    emailjs
-      .sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY },
-      )
-      .then(() => {
-        setFormSent(true)
-        formRef.current.reset()
-      })
-      .catch(() => setFormError(true))
-      .finally(() => setFormSending(false))
   }
 
   const previousProject = () => {
@@ -446,14 +420,7 @@ function App() {
           </div>
           <div className="contact-form-wrap">
             <div className="form-heading"><Zap size={24} /><div><h3>{t.formTitle}</h3><p>{t.formIntro}</p></div></div>
-            <form ref={formRef} onSubmit={handleSubmit}>
-              <label htmlFor="name">{t.name}</label><input id="name" name="name" type="text" placeholder={t.namePlaceholder} required />
-              <label htmlFor="email">{t.email}</label><input id="email" name="email" type="email" placeholder="vy@firma.sk" required />
-              <label htmlFor="message">{t.message}</label><textarea id="message" name="message" rows="5" placeholder={t.messagePlaceholder} required />
-              <button className="button button-primary form-button" type="submit" disabled={formSending}>{formSending ? '…' : <>{t.submit} <ArrowRight size={18} /></>}</button>
-              {formSent && <p className="form-status" role="status"><Check size={17} /> {t.sent}</p>}
-              {formError && <p className="form-status form-status--error" role="alert">{language === 'sk' ? `Odoslanie zlyhalo. Skúste nás kontaktovať priamo na ${company.email}.` : `Sending failed. Please email us directly at ${company.email}.`}</p>}
-            </form>
+            <a className="button button-primary form-button" href={`mailto:${company.email}`}>{t.writeEmail} <ArrowRight size={18} /></a>
           </div>
         </section>
       </main>

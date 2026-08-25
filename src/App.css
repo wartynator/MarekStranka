@@ -140,8 +140,6 @@ form input:focus,form textarea:focus { border-color:var(--green); }
 form input::placeholder,form textarea::placeholder { color:#8b9995; }
 .form-button { align-self:flex-start; background:var(--green); color:white; padding:0 27px; }
 .form-button:hover { background:#175943; }
-.form-status { display:flex; align-items:center; gap:8px; color:var(--green); font-size:13px; margin:16px 0 0; }
-.form-status--error { color:#e05252; }
 footer { min-height:110px; padding:25px clamp(24px,5vw,76px); display:flex; justify-content:space-between; align-items:center; gap:30px; border-top:1px solid var(--line); }
 footer>p,footer>span { color:var(--muted); font-size:12px; }
 @keyframes rise-in { from { opacity:0; transform:translateY(25px); } to { opacity:1; transform:none; } }
